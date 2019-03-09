@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import './tappableicon.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,14 +24,14 @@ class RandomWords extends StatefulWidget {
 class RandomWordsState extends State<RandomWords> {
   final List<WordPair> _suggestions = <WordPair>[];
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
-  final Set<WordPair> _saved = new Set<WordPair>(); // Add this line.
+  final Set<WordPair> saved = new Set<WordPair>(); // Add this line.
 
   void _pushSaved() {
     Navigator.of(context).push(
       new MaterialPageRoute<void>(
         // Add 20 lines from here...
         builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _saved.map(
+          final Iterable<ListTile> tiles = saved.map(
             (WordPair pair) {
               return new ListTile(
                 title: new Text(
@@ -56,6 +57,16 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
+  _onChange(WordPair pair) {
+    setState(() {
+      if (saved.contains(pair)) {
+        saved.remove(pair);
+      } else {
+        saved.add(pair);
+      }
+    });
+  }
+
   Widget _buildSuggestions() {
     return ListView.builder(
         padding: const EdgeInsets.all(16.0),
@@ -71,27 +82,19 @@ class RandomWordsState extends State<RandomWords> {
   }
 
   Widget _buildRow(WordPair pair) {
-    final bool alreadySaved = _saved.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
-      trailing: new Icon(
+      trailing: new TapableIcon(
+        parent: this,
+        pair: pair,
+        onChange: _onChange,
         // Add the lines from here...
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
+        // parent: this,
+        // pair: pair
       ), // ... to here.
-      onTap: () {
-        // Add 9 lines from here...
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      }, // ... to here.
     );
   }
 
