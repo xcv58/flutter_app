@@ -18,8 +18,6 @@ class TapableIcon extends StatefulWidget {
 }
 
 class _TapableIcon extends State<TapableIcon> {
-  //  TapableIcon({ Key key, this.parent: p, // this.pair: pair })
-
   void _handleTap() {
     widget.onChange(widget.pair);
   }
@@ -28,13 +26,13 @@ class _TapableIcon extends State<TapableIcon> {
     // This example adds a green border on tap down.
     // On tap up, the square changes to the opposite state.
     final bool alreadySaved = widget.parent.saved.contains(widget.pair);
-    return GestureDetector(
-      onTap: _handleTap,
-      child: new Icon(
+    return IconButton(
+      icon: Icon(
         // Add the lines from here...
         alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: alreadySaved ? Colors.red : null,
       ), // ... to here.
+      onPressed: _handleTap,
     );
   }
 }
