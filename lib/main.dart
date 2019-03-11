@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import './tappableicon.dart';
+import './video_player.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(MyApp());
+void main() => runApp(ChewieDemo());
 
 class MyApp extends StatelessWidget {
   @override
